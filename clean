@@ -1,0 +1,4 @@
+CHEMIN=evaluationPret/services
+rm -r $CHEMIN/__pycache__/ 2>/dev/null
+rm evaluationPret.db 2>/dev/null
+rm -r $CHEMIN/tmp 2>/dev/null

@@ -1,0 +1,10 @@
+./clean
+NOM=Projet_REST
+mkdir $NOM
+cp run $NOM
+cp clean $NOM
+cp configure $NOM
+cp README.md $NOM
+cp -r evaluationPret $NOM
+tar czvf $NOM.tar.gz $NOM 1>/dev/null
+rm -r $NOM
