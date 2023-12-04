@@ -38,11 +38,11 @@ Nom : Paul Gauthier
 Adresse : 12 Rue du Pont Neuf, 91120 Palaiseau, France  
 Email : paul.gauthier@email.com  
 Numéro de téléphone : 01 12 23 34 45  
-Montant du pret : 160000 EUR  
-Duree du pret : 10 ans  
+Montant du pret : 160000  
+Duree du pret : 10  
 Description de la propriete : Appartement a 6 etages avec un petit balcon  
-Revenus mensuel : 12000 EUR  
-Depenses mensuelles : 2000 EUR  
+Revenus mensuel : 12000  
+Depenses mensuelles : 2000  
 Compte bancaire : 33  
 Identifiant propriété : 3  
 ```
@@ -61,17 +61,17 @@ Décision: Demande de prêt acceptée
 #### Formulaire
 
 ```
-Nom : Jack Daniel
-Adresse : 52 Avenue de la gare, 91120 Palaiseau, France
-Email : jack.daniel@email.com
-Numéro de téléphone : 01 12 23 34 46
-Montant du pret : 130000 EUR
-Duree du pret : 15 ans
-Description de la propriete : Appartement de 5 etages
-Revenus mensuel : 7000 EUR
-Depenses mensuelles : 3000 EUR
-Compte bancaire : 44
-Identifiant propriété : 4
+Nom : Jack Daniel  
+Adresse : 52 Avenue de la gare, 91120 Palaiseau, France  
+Email : jack.daniel@email.com  
+Numéro de téléphone : 01 12 23 34 46  
+Montant du pret : 130000  
+Duree du pret : 15  
+Description de la propriete : Appartement de 5 etages  
+Revenus mensuel : 7000  
+Depenses mensuelles : 3000  
+Compte bancaire : 44  
+Identifiant propriété : 4  
 ```
 
 #### Résultat
@@ -87,17 +87,17 @@ Decision: Demande de prêt acceptée
 
 #### Formulaire
 ```
-Nom : Victor Wolf
-Adresse : 39 Rue Geais Padidee, 91120 Palaiseau, France
-Email : victor.wolf@email.com
-Numéro de téléphone : 01 12 23 34 47
-Montant du pret : 25000 EUR
-Duree du pret : 5 ans
-Description de la propriete : Maison avec deux etages et un grand jardin
-Revenus mensuel : 10000 EUR
-Depenses mensuelles : 4000 EUR
-Compte bancaire : 55
-Identifiant propriété : 5
+Nom : Victor Wolf  
+Adresse : 39 Rue Geais Padidee, 91120 Palaiseau, France  
+Email : victor.wolf@email.com  
+Numéro de téléphone : 01 12 23 34 47  
+Montant du pret : 25000  
+Duree du pret : 5  
+Description de la propriete : Maison avec deux etages et un grand jardin  
+Revenus mensuel : 10000  
+Depenses mensuelles : 4000  
+Compte bancaire : 55  
+Identifiant propriété : 5  
 ```
 #### Résultat
 ```
