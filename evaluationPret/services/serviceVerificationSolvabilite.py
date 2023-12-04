@@ -9,59 +9,126 @@ class serviceVerificationSolvabilite:
     
     def creationDBBanque():
     
-        lienJSON = "./evaluationPret/services/bdd/banque.json"
+        # Connexion à la base de données
+        connexion = sqlite3.connect("banque.db")
+        curseur = connexion.cursor()
+
+        # Création de la table
+        curseur.execute('DROP TABLE IF EXISTS BANQUE')
+        curseur.execute('''
+            CREATE TABLE IF NOT EXISTS BANQUE (
+                idBanque INTEGER PRIMARY KEY,
+                age INTEGER,
+                enfants INTEGER,
+                emploi INTEGER,
+                nbCreditsEnCours INTEGER,
+                antecedents INTEGER,
+                tauxEndettement INTEGER)
+                ''')
         
-        banque = [
-            {"idBanque": 11,"age": 25,"enfants": 0,"emploi": 0,"nbCreditsEnCours": 0,"antecedents": 0,"tauxEndettement": 0},
-            {"idBanque": 22,"age": 50,"enfants": 4,"emploi": 1,"nbCreditsEnCours": 4,"antecedents": 1,"tauxEndettement": 45},
-            {"idBanque": 33,"age": 20,"enfants": 1,"emploi": 0,"nbCreditsEnCours": 0,"antecedents": 0,"tauxEndettement": 0},
-            {"idBanque": 44,"age": 33,"enfants": 1,"emploi": 1,"nbCreditsEnCours": 0,"antecedents": 0,"tauxEndettement": 0},
-            {"idBanque": 55,"age": 75,"enfants": 5,"emploi": 0,"nbCreditsEnCours": 1,"antecedents": 0,"tauxEndettement": 20}
+        # Importation des données JSON dans la base de données
+        donnees_json = [
+            {
+                "idBanque": 11,
+                "age": 25,
+                "enfants": 0,
+                "emploi": 0,
+                "nbCreditsEnCours": 0,
+                "antecedents": 0,
+                "tauxEndettement": 0
+            },
+            {
+                "idBanque": 22,
+                "age": 50,
+                "enfants": 4,
+                "emploi": 1,
+                "nbCreditsEnCours": 4,
+                "antecedents": 1,
+                "tauxEndettement": 45
+            },
+            {
+                "idBanque": 33,
+                "age": 20,
+                "enfants": 1,
+                "emploi": 0,
+                "nbCreditsEnCours": 0,
+                "antecedents": 0,
+                "tauxEndettement": 0
+            },
+            {
+                "idBanque": 44,
+                "age": 33,
+                "enfants": 1,
+                "emploi": 1,
+                "nbCreditsEnCours": 0,
+                "antecedents": 0,
+                "tauxEndettement": 0
+            },
+            {
+                "idBanque": 55,
+                "age": 75,
+                "enfants": 5,
+                "emploi": 0,
+                "nbCreditsEnCours": 1,
+                "antecedents": 0,
+                "tauxEndettement": 20
+            }
         ]
 
-        json_string = json.dumps(banque, indent=4) 
+        for banque in donnees_json:
+            curseur.execute('''
+                INSERT INTO BANQUE (idBanque, age, enfants, emploi, nbCreditsEnCours, antecedents, tauxEndettement)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                banque["idBanque"],
+                banque["age"],
+                banque["enfants"],
+                banque["emploi"],
+                banque["nbCreditsEnCours"],
+                banque["antecedents"],
+                banque["tauxEndettement"]
+            ))
 
-        with open(lienJSON, "w") as json_file:
-            json_file.write(json_string)
-
-        return lienJSON
-    
-    
-    def recupDonnees(lienJSON, idEvaluation):
-        
-        connexion = sqlite3.connect('evaluationPret.db')
-        cursor = connexion.cursor()
-        
-        cursor.execute("SELECT idBanque, montantPret, dureePret, revenuMensuel, depenseMensuelle FROM EVALUATION WHERE idEvaluation = ?", (idEvaluation,))
-        resultats = cursor.fetchone()
-
-        donnees=[]
-        test=-1
-        
-        for i in range(0,len(resultats)):
-            donnees.append(resultats[i])
-            
-        with open(lienJSON, "r") as json_file:
-            banque = json.load(json_file)
-
-        for client in banque:
-            if str(client["idBanque"]) == str(donnees[0]):
-                donnees.append(int(client["age"]))
-                donnees.append(int(client["enfants"]))
-                donnees.append(int(client["emploi"]))
-                donnees.append(int(client["nbCreditsEnCours"]))
-                donnees.append(int(client["antecedents"]))
-                donnees.append(int(client["tauxEndettement"]))
-                test=0
-        
-        if test==-1 : 
-                print("Compte bancaire non retrouvé")
-            
+        # Valider les modifications
         connexion.commit()
-        connexion.close()
 
-        return donnees
+        # Fermer la connexion
+        connexion.close()
     
+    
+    def recupDonnees(idEvaluation):
+        
+        donnees=[]
+        
+        connexion1 = sqlite3.connect('evaluationPret.db')
+        curseur1 = connexion1.cursor()
+        curseur1.execute("SELECT idBanque, montantPret, dureePret, revenuMensuel, depenseMensuelle FROM EVALUATION WHERE idEvaluation = ?", (idEvaluation,))
+        evaluation = curseur1.fetchone()
+        
+        for i in range(0,len(evaluation)):
+            donnees.append(evaluation[i])
+            
+        connexion1.commit()
+        connexion1.close()
+        
+        connexion2 = sqlite3.connect("banque.db")
+        curseur2 = connexion2.cursor()
+        curseur2.execute("SELECT age, enfants, emploi, nbCreditsEnCours, antecedents, tauxEndettement FROM BANQUE WHERE idBanque = ?", (donnees[0],))
+        banque = curseur2.fetchone()
+        
+        connexion2.commit()
+        connexion2.close()
+        
+        if(banque != None):
+            
+            for i in range(0,len(banque)):
+                donnees.append(banque[i])
+                
+            return donnees
+        
+        else:        
+            return -1
+        
     
     def calculScoring(donnees, idEvaluation):
     
@@ -210,9 +277,11 @@ class serviceVerificationSolvabilite:
         connexion.close()
         
     
-    
     def verifier(idEvaluation : int):
-        lien = serviceVerificationSolvabilite.creationDBBanque()
-        donnees = serviceVerificationSolvabilite.recupDonnees(lien, idEvaluation)
-        ret=serviceVerificationSolvabilite.calculScoring(donnees, idEvaluation)
+        serviceVerificationSolvabilite.creationDBBanque()
+        donnees = serviceVerificationSolvabilite.recupDonnees(idEvaluation)
+        if (donnees == -1):
+            print ("Compte bancaire non existant dans la Banque")
+        else :
+            serviceVerificationSolvabilite.calculScoring(donnees, idEvaluation)
         

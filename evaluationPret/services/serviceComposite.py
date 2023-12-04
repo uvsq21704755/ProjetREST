@@ -56,6 +56,7 @@ class serviceComposite:
                         idDossier INTEGER PRIMARY KEY,
                         resultat TEXT)
                         ''')
+        
 
         connexion.commit()
         connexion.close()

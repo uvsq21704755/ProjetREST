@@ -218,12 +218,17 @@ class serviceEvaluationPropriete:
   
     
     def valeurMarche(donnees, idEvaluation, lienJSONMarcheImmobilier):
-    
+        print("Donnees: "+str(donnees))
         adresse = donnees[0]
+        print("Adresse: "+str(adresse))
         descriptionPropriete = str(donnees[1])
+        print("Description propriete: "+str(descriptionPropriete))
         codePostal = int(re.search(r'\b\d{5}\b', adresse).group())
+        print("Code postal: "+str(codePostal))
         modeleRegex = r"(Maison|Appartement)|(maison|appartement)(?:.*?(\b\w+\b)?\s?[ée]tage[s])?"
+        print("Regex: "+str(modeleRegex))
         resultat = re.search(modeleRegex, descriptionPropriete, re.IGNORECASE)
+        print("Resultat: "+str(resultat))
         
         nbEtage = None
         batiment = None
