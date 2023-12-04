@@ -148,7 +148,6 @@ class App():
                     connexion.close()
                     valcat = ', '.join(map(str, resultat2))
                     valcat = valcat.replace("$","<br></br>")
-                    print("Valcat: "+valcat)
                     return open(str(CHEMIN_RACINE+"templates/disponible.html"),"r", encoding="UTF-8").read().replace("REPONSE", valcat)
 
             return None

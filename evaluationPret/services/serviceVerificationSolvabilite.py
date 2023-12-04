@@ -214,6 +214,5 @@ class serviceVerificationSolvabilite:
     def verifier(idEvaluation : int):
         lien = serviceVerificationSolvabilite.creationDBBanque()
         donnees = serviceVerificationSolvabilite.recupDonnees(lien, idEvaluation)
-        print("Donnees Solvabilite: "+str(donnees))
         ret=serviceVerificationSolvabilite.calculScoring(donnees, idEvaluation)
         

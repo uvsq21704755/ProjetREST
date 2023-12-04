@@ -277,7 +277,6 @@ class serviceEvaluationPropriete:
         lien2=serviceEvaluationPropriete.creationDBMarcheImmobilier()
         donnees1=serviceEvaluationPropriete.recupDonneesImmobilier(lien1, idEvaluation)
         donnees2=serviceEvaluationPropriete.recupDonneesMarcheImmobilier(idEvaluation)
-        print("Donnees 1: "+str(donnees1)+"; Donnees 2: "+str(donnees2))
         serviceEvaluationPropriete.verificationConformite(donnees1, idEvaluation)
         serviceEvaluationPropriete.valeurMarche(donnees2, idEvaluation, lien2)
         

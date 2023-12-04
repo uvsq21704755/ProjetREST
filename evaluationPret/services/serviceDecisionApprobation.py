@@ -95,8 +95,6 @@ class serviceDecisionApprobation:
             resultat = resultat.replace("[numeroDossier]", str(numDossier))
             resultat = resultat.replace("[montantPret]", str(montantPret)+" euros")
             resultat = resultat.replace("[dureePret]", str(dureePret)+" ans")
-            
-        print("Resultat avant tuple : "+resultat)
 
         #Creation d'un nouveau tuple(idDossier, resultat) dans RESULTAT
         cursor.execute("INSERT INTO RESULTAT (idDossier, resultat) VALUES (?,?)",(idDossier[0], str(resultat),))
