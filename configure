@@ -1,4 +1,7 @@
-CHEMIN=evaluationPret/services
-python -m venv ./venv
-./venv/bin/pip install flask Flask-RESTful requests pysqlite3
-mkdir $CHEMIN/tmp
+if [ ! -d "./venv" ]; then
+	python -m venv ./venv
+	./venv/bin/pip install lxml spyne flask pysimplesoap watchdog asyncio asgiref suds requests
+fi
+
+export CHEMINPROJ="evaluationPret/services"
+mkdir $CHEMINPROJ/tmp 2>/dev/null
