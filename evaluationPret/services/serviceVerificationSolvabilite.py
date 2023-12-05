@@ -125,6 +125,8 @@ class serviceVerificationSolvabilite:
         
     
     def calculScoring(donnees, idEvaluation):
+        
+        print("£Donnees: "+str(donnees))
     
         #stockage des données
         idBanque = donnees[0]
@@ -143,12 +145,16 @@ class serviceVerificationSolvabilite:
         capaciteEmprunt = (int(revenuMensuel) * 33) / 100
         decision = "Pas de décision"
         
+        print("montantPret: "+str(montantPret)+"; dureePret: "+str(dureePret)+"; revenuMensuel: "+str(revenuMensuel)+"; depenseMensuelle: "+str(depenseMensuelle)+"; Age: "+str(age)+"; enfants: "+str(enfants)+"; emploi: "+str(emploi)+"; nombre crédits en cours: "+str(nbCreditsEnCours)+"; Antecedants: "+str(antecedents)+"; taux endettement: "+str(tauxEndettement)+ "; capacité emprunt: "+str(capaciteEmprunt))
         
         #calcul scoring
         if age < 18 or tauxEndettement >= 33 or (depenseMensuelle + capaciteEmprunt) > revenuMensuel:
-            if age < 18: decision = 'Non Admissible'
-            if tauxEndettement >= 33: decision = 'Non Admissible'
-            if (depenseMensuelle + capaciteEmprunt) > revenuMensuel: decision = 'Non Admissible'
+            if age < 18: 
+                decision = 'Non Admissible'
+            if tauxEndettement >= 33: 
+                decision = 'Non Admissible'
+            if (depenseMensuelle + capaciteEmprunt) > revenuMensuel: 
+                decision = 'Non Admissible'
         
         else:
             
@@ -156,67 +162,115 @@ class serviceVerificationSolvabilite:
             
             if 18 <= age < 35:
                 if enfants == 0:
-                    if emploi == 0: score += 10
-                    else: score += 5
+                    if emploi == 0:
+                        score += 10
+                    else: 
+                        score += 5
                 if enfants == 1:
-                    if emploi == 0: score += 8
-                    else: score += 3
+                    if emploi == 0: 
+                        score += 8
+                    else: 
+                        score += 3
                 if enfants == 2:
-                    if emploi == 0: score += 6
-                    else: score = 2
+                    if emploi == 0: 
+                        score += 6
+                    else: 
+                        score = 2
                 if enfants > 3:
-                    if emploi == 0: score += 5
-                    else: decision = 'Non Admissible'
+                    if emploi == 0: 
+                        score += 5
+                    else: 
+                        decision = 'Non Admissible'
                 
-                if dureePret < 10: score += 10
-                elif 10 <= dureePret < 15: score += 8
-                elif 15 <= dureePret < 20: score += 6
-                elif 20 <= dureePret < 25: score += 4
-                elif dureePret >= 25: score += 2
+                if dureePret < 10: 
+                    score += 10
+                elif 10 <= dureePret < 15: 
+                    score += 8
+                elif 15 <= dureePret < 20: 
+                    score += 6
+                elif 20 <= dureePret < 25: 
+                    score += 4
+                elif dureePret >= 25: 
+                    score += 2
         
-                if montantPret < 100000: score += 10
-                elif 100000 <= montantPret < 150000: score += 8
-                elif 150000 <= montantPret < 200000: score += 6
-                elif 200000 <= montantPret < 250000: score += 4
-                elif montantPret >= 250000: score += 2
+                if montantPret < 100000: 
+                    score += 10
+                elif 100000 <= montantPret < 150000: 
+                    score += 8
+                elif 150000 <= montantPret < 200000: 
+                    score += 6
+                elif 200000 <= montantPret < 250000: 
+                    score += 4
+                elif montantPret >= 250000: 
+                    score += 2
 
-                if antecedents == 0: score += 10
-                elif antecedents == 1: score += 7
-                elif antecedents == 2: score += 4
-                elif antecedents == 3: score += 1
-                elif antecedents >= 4: decision = 'Non Admissible'
+                if antecedents == 0: 
+                    score += 10
+                elif antecedents == 1: 
+                    score += 7
+                elif antecedents == 2: 
+                    score += 4
+                elif antecedents == 3: 
+                    score += 1
+                elif antecedents >= 4: 
+                    decision = 'Non Admissible'
+                
                 
             elif 35 <= age < 60:
                 if enfants == 0:
-                    if emploi == 0: score += 8
-                    else: score += 5
+                    if emploi == 0: 
+                        score += 8
+                    else: 
+                        score += 5
                 if enfants == 1:
-                    if emploi == 0: score += 6
-                    else: score += 3
+                    if emploi == 0: 
+                        score += 6
+                    else: 
+                        score += 3
                 if enfants == 2:
-                    if emploi == 0: score += 5
-                    else: score += 2
+                    if emploi == 0:
+                        score += 5
+                    else: 
+                        score += 2
                 if enfants > 3:
-                    if emploi == 0: score += 4
-                    else: decision = 'Non Admissible'
+                    if emploi == 0: 
+                        score += 4
+                    else: 
+                        decision = 'Non Admissible'
                 
-                if dureePret < 10: score += 9
-                elif 10 <= dureePret < 15: score += 7
-                elif 15 <= dureePret < 20: score += 5
-                elif 20 <= dureePret < 25: score += 3
-                elif dureePret >= 25: score += 1
+                if dureePret < 10: 
+                    score += 9
+                elif 10 <= dureePret < 15: 
+                    score += 7
+                elif 15 <= dureePret < 20: 
+                    score += 5
+                elif 20 <= dureePret < 25: 
+                    score += 3
+                elif dureePret >= 25: 
+                    score += 1
                 
-                if montantPret < 100000: score += 9
-                elif 100000 <= montantPret < 150000: score += 7
-                elif 150000 <= montantPret < 200000: score += 5
-                elif 200000 <= montantPret < 250000: score += 3
-                elif montantPret >= 250000: score += 1
+                if montantPret < 100000: 
+                    score += 9
+                elif 100000 <= montantPret < 150000: 
+                    score += 7
+                elif 150000 <= montantPret < 200000: 
+                    score += 5
+                elif 200000 <= montantPret < 250000: 
+                    score += 3
+                elif montantPret >= 250000: 
+                    score += 1
                     
-                if antecedents == 0: score += 8
-                elif antecedents == 1: score += 5
-                elif antecedents == 2: score += 2
-                elif antecedents == 3: score += 0
-                elif antecedents >= 4: decision = 'Non Admissible'
+                if antecedents == 0: 
+                    score += 8
+                elif antecedents == 1: 
+                    score += 5
+                elif antecedents == 2: 
+                    score += 2
+                elif antecedents == 3: 
+                    score += 0
+                elif antecedents >= 4: 
+                    decision = 'Non Admissible'
+            
             
             elif 60 <= age:
                 if enfants == 0:
@@ -229,28 +283,50 @@ class serviceVerificationSolvabilite:
                     if emploi == 0: score += 2
                     else: decision = 'Non Admissible'
                 if enfants > 3:
-                    if emploi == 0: score += 0
-                    else: decision = 'Non Admissible'
+                    if emploi == 0: 
+                        score += 0
+                    else: 
+                        decision = 'Non Admissible'
                 
-                if dureePret < 10: score += 6
-                elif 10 <= dureePret < 15: score += 4
-                elif 15 <= dureePret < 20: score += 2
-                elif 20 <= dureePret < 25: score += 1
-                elif dureePret >= 25: decision = 'Non Admissible'
+                if dureePret < 10: 
+                    score += 6 
+                elif 10 <= dureePret < 15:
+                    score += 4 
+                elif 15 <= dureePret < 20: 
+                    score += 2
+                elif 20 <= dureePret < 25: 
+                    score += 1
+                elif dureePret >= 25: 
+                    decision = 'Non Admissible'
                 
-                if montantPret < 100000: score += 6
-                elif 100000 <= montantPret < 150000: score += 4
-                elif 150000 <= montantPret < 200000: score += 2
-                elif 200000 <= montantPret < 250000: score += 1
-                elif montantPret >= 250000: decision = 'Non Admissible'
+                if montantPret < 100000:
+                    print("!!! cas C1")
+                    score += 6
+                elif 100000 <= montantPret < 150000: 
+                    print("!!! cas C2")
+                    score += 4
+                elif 150000 <= montantPret < 200000: 
+                    print("!!! cas C3")
+                    score += 2
+                elif 200000 <= montantPret < 250000: 
+                    print("!!! cas C4")
+                    score += 1
+                elif montantPret >= 250000: 
+                    print("!!! cas C5")
+                    decision = 'Non Admissible'
                     
-                if antecedents == 0: score += 6
-                elif antecedents == 1: score += 4
-                elif antecedents == 2: score += 1
-                elif antecedents == 3: score += 0
-                elif antecedents >= 4: decision = 'Non Admissible'
+                if antecedents == 0: 
+                    score += 6
+                elif antecedents == 1: 
+                    score += 4
+                elif antecedents == 2: 
+                    score += 1
+                elif antecedents == 3: 
+                    score += 0
+                elif antecedents >= 4: 
+                    decision = 'Non Admissible'
                 
-            if score != -1:       
+            if score != -1:    
                 if 30 < score <= 40:
                     if decision != 'Non Admissible': decision = 'Tres favorable'
                 elif 20 < score <= 30:
