@@ -50,11 +50,12 @@ Identifiant propriété : 3
 #### Résultat
 
 ```
-Score: 32 => Décision Très favorable
-Valeur estimée : 148000
-Décision conformité : Admissible a un pret immobilier
-Visite virtuelle demandée et effectuée, Visite sur place concluante OU Visite virtuelle non demandée et non effectuée Visite sur place non demandée et non effectuée
-Décision: Demande de prêt acceptée
+Score : 32
+Decision Score : Très favorable
+Decision Conformité : Admissible a un pret immobilier
+Raisons : /
+EstimationValeur: 148000
+=> DEMANDE DE PRÊT ACCEPTEE
 ```
 ### Profil emploi instable
 
@@ -76,11 +77,12 @@ Identifiant propriété : 4
 
 #### Résultat
 ```
-Score: 27 => Décision Sous condition
-Valeur estimée: 135000
-Décision conformité : Admissible a un pret immobilier
-Visite virtuelle non demandée et non effectuée Visite sur place non demandée et non effectuée OU Visite virtuelle demandée et effectuée Visite sur place concluante
-Decision: Demande de prêt acceptée
+Score : 27
+Decision Score : Sous condition
+Decision Conformité : Admissible a un pret immobilier
+Raisons : /
+EstimationValeur: 135000
+=> DEMANDE DE PRÊT ACCEPTEE
 ```
 
 ### Profil score trop faible
@@ -91,19 +93,20 @@ Nom : Victor Wolf
 Adresse : 39 Rue Geais Padidee, 91120 Palaiseau, France  
 Email : victor.wolf@email.com  
 Numéro de téléphone : 01 12 23 34 47  
-Montant du pret : 25000  
-Duree du pret : 5  
+Montant du pret : 70000  
+Duree du pret : 25    
 Description de la propriete : Maison avec deux etages et un grand jardin  
 Revenus mensuel : 10000  
-Depenses mensuelles : 4000  
+Depenses mensuelles : 6000   
 Compte bancaire : 55  
 Identifiant propriété : 5  
 ```
 #### Résultat
 ```
-Score: 12 => Décision Non Admissible
-Valeur estimée: 200000
-Décision conformité: Admissible a un pret immobilier
-Visite virtuelle non demandée et non effectuée Visite sur place non demandée et non effectuée OU Visite virtuelle demandée et effectuée Visite sur place non demandée et non effectuée
-Décision: Demande de prêt refusée - votre score n'est pas suffisant
+Score : 12
+Decision Score : Non Admissible
+Decision Conformité : Admissible a un pret immobilier
+Raisons : Score pas suffisant
+EstimationValeur: 200000
+=> DEMANDE DE PRÊT REFUSEE
 ```
