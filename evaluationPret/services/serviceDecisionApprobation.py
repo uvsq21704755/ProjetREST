@@ -1,12 +1,11 @@
-# Service permettant de prendre une décision en fonction du score et de l'évaluation de la propriété
+# serviceDecisionApprobation.py : service permettant de générer une décision en fonction du score de Verification Solvabilité et de la décision de Evaluation Propriété
 
+# Importation des librairies extérieures
 import sqlite3
-# Importation du service composite
-import serviceComposite
+
 
 
 class serviceDecisionApprobation:
-    
     
     def recupBD(idEvaluation):
         
@@ -39,8 +38,6 @@ class serviceDecisionApprobation:
         estimationValeur = donnees[7]
         raisons = donnees[8]
             
-    
-        # Refus sans plus d'analyses :
         motif = "inconnu"
         test = -1
         
@@ -70,26 +67,20 @@ class serviceDecisionApprobation:
             motif = "votre score n'est pas suffisant"
             test = 0
             
-        
-        #Trouver le idDossier
         connexion = sqlite3.connect('evaluationPret.db')
         cursor = connexion.cursor()
         cursor.execute("SELECT idDossier FROM EVALUATION WHERE idEvaluation = ?", (idEvaluation,))
         idDossier = cursor.fetchone()
         
-        
-        #Créer le résultat
         acceptation = "Bonjour [nom],$ Félicitations, votre demande de prêt numéro [numeroDossier] a bien été <vert>approuvée</vert>. $Veuillez trouver les modalités suivantes à respecter: $- Montant de prêt accordé : [montantPret] $- Durée du prêt : [dureePret]"
         refus = "Bonjour [nom],$ Nous sommes dans le regret de vous annoncer que votre demande de prêt numéro [numeroDossier] a été <rouge>refusée</rouge> pour le/les motif(s) suivant(s): $[motifs]"
         
-        #refus
         if (test == 0):
             resultat = refus
             resultat = resultat.replace("[nom]", str(nom))
             resultat = resultat.replace("[numeroDossier]", str(numDossier))
             resultat = resultat.replace("[motifs]", str(motif))
         
-        #acceptation
         else :
             resultat = acceptation
             resultat = resultat.replace("[nom]", str(nom))
@@ -97,7 +88,6 @@ class serviceDecisionApprobation:
             resultat = resultat.replace("[montantPret]", str(montantPret)+" euros")
             resultat = resultat.replace("[dureePret]", str(dureePret)+" ans")
 
-        #Creation d'un nouveau tuple(idDossier, resultat) dans RESULTAT
         cursor.execute("INSERT INTO RESULTAT (idDossier, resultat) VALUES (?,?)",(idDossier[0], str(resultat),))
         
         connexion.commit()

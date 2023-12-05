@@ -1,8 +1,9 @@
-# Service permettant de vérifier la solvabilité
-import json, sqlite3
+# serviceVerificationSolvabilite.py : service permettant de vérifier la solvabilité
 
-# Importation du service composite
-import serviceComposite
+# Importation des librairies extérieures
+import json
+import sqlite3
+
 
 
 class serviceVerificationSolvabilite:
@@ -126,10 +127,6 @@ class serviceVerificationSolvabilite:
     
     def calculScoring(donnees, idEvaluation):
         
-        print("£Donnees: "+str(donnees))
-    
-        #stockage des données
-        idBanque = donnees[0]
         montantPret = donnees[1]
         dureePret = donnees[2]
         revenuMensuel = donnees[3]
@@ -137,7 +134,6 @@ class serviceVerificationSolvabilite:
         age = donnees[5]
         enfants = donnees[6]
         emploi = donnees[7]
-        nbCreditsEnCours = donnees[8]
         antecedents = donnees[9]
         tauxEndettement = donnees[10]
         
@@ -145,9 +141,6 @@ class serviceVerificationSolvabilite:
         capaciteEmprunt = (int(revenuMensuel) * 33) / 100
         decision = "Pas de décision"
         
-        print("montantPret: "+str(montantPret)+"; dureePret: "+str(dureePret)+"; revenuMensuel: "+str(revenuMensuel)+"; depenseMensuelle: "+str(depenseMensuelle)+"; Age: "+str(age)+"; enfants: "+str(enfants)+"; emploi: "+str(emploi)+"; nombre crédits en cours: "+str(nbCreditsEnCours)+"; Antecedants: "+str(antecedents)+"; taux endettement: "+str(tauxEndettement)+ "; capacité emprunt: "+str(capaciteEmprunt))
-        
-        #calcul scoring
         if age < 18 or tauxEndettement >= 33 or (depenseMensuelle + capaciteEmprunt) > revenuMensuel:
             if age < 18: 
                 decision = 'Non Admissible'
@@ -300,19 +293,14 @@ class serviceVerificationSolvabilite:
                     decision = 'Non Admissible'
                 
                 if montantPret < 100000:
-                    print("!!! cas C1")
                     score += 6
                 elif 100000 <= montantPret < 150000: 
-                    print("!!! cas C2")
                     score += 4
                 elif 150000 <= montantPret < 200000: 
-                    print("!!! cas C3")
                     score += 2
                 elif 200000 <= montantPret < 250000: 
-                    print("!!! cas C4")
                     score += 1
                 elif montantPret >= 250000: 
-                    print("!!! cas C5")
                     decision = 'Non Admissible'
                     
                 if antecedents == 0: 
@@ -336,8 +324,6 @@ class serviceVerificationSolvabilite:
                 elif 0 <= score <= 10:
                     if decision != 'Non Admissible': decision = 'Peu probable'
         
-            
-        #Ecriture dans la BD
         connexion = sqlite3.connect('evaluationPret.db')
         cursor = connexion.cursor()
         
@@ -348,8 +334,10 @@ class serviceVerificationSolvabilite:
         
     
     def verifier(idEvaluation : int):
+        
         serviceVerificationSolvabilite.creationDBBanque()
         donnees = serviceVerificationSolvabilite.recupDonnees(idEvaluation)
+        
         if (donnees == -1):
             print ("Compte bancaire non existant dans la Banque")
         else :

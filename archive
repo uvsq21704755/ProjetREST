@@ -1,5 +1,5 @@
 ./clean
-NOM=Projet_REST
+NOM=SUGUMAR_CONOR
 mkdir $NOM
 cp run $NOM
 cp clean $NOM

@@ -1,17 +1,13 @@
-# Service permettant d'évaluer la propriété
+# serviceEvaluationPropriete.py : service permettant d'évaluer la propriété
 
-#Importation 
-import json
+# Importation des librairies extérieures
 import sqlite3
 import random
 import re
 
-#Importation du service composite
-import serviceComposite
 
 
-
-#Struct pour convertir les nombres en texte
+#Structure pour convertir les chiffres textes en chiffres
 nombres_en_texte = {
     "un": "1",
     "deux": "2",
@@ -112,8 +108,6 @@ class serviceEvaluationPropriete:
         connexion.commit()
         connexion.close()
         
-        print("La table IMMOBILIER a été crée.")
-    
     
     def creationDBMarcheImmobilier():
     
@@ -164,28 +158,28 @@ class serviceEvaluationPropriete:
             {
                 "adresse": "1 Rue Jesaispas",
                 "codePostal": 78000,
-                "batiment": "Maison",
+                "batiment": "Appartement",
                 "nbEtage": "6",
                 "valeur": 150000
             },
             {
                 "adresse": "3 Rue Truc",
                 "codePostal": 78000,
-                "batiment": "Maison",
+                "batiment": "Appartement",
                 "nbEtage": "7",
                 "valeur": 180000
             },
             {
                 "adresse": "27 Avenue Bidule",
                 "codePostal": 78000,
-                "batiment": "Maison",
+                "batiment": "Appartement",
                 "nbEtage": "5",
                 "valeur": 100000
             },
             {
                 "adresse": "42 Rue Mj",
                 "codePostal": 78000,
-                "batiment": "Maison",
+                "batiment": "Appartement",
                 "nbEtage": "6",
                 "valeur": 120000
             },
@@ -291,7 +285,6 @@ class serviceEvaluationPropriete:
 
         connexion.commit()
         connexion.close()
-        print("La table MARCHEIMMOBILIER a été crée.")
     
     
     def recupDonneesImmobilier(idEvaluation):
@@ -302,7 +295,6 @@ class serviceEvaluationPropriete:
         curseur1 = connexion1.cursor()
         curseur1.execute("SELECT idPropriete, adresse, descriptionPropriete FROM EVALUATION WHERE idEvaluation = ?", (idEvaluation,))
         evaluation = curseur1.fetchone()
-        print("$Recup evaluation: "+str(evaluation))
         
         for i in range(0,len(evaluation)):
             donnees.append(evaluation[i])
@@ -314,7 +306,6 @@ class serviceEvaluationPropriete:
         curseur2 = connexion2.cursor()
         curseur2.execute("SELECT age, normeLegal, normeReglementaire, litigesEnCours, normeElectricite, normeGaz FROM immobilier WHERE idImmobilier = ?", (donnees[0],))
         immobilier = curseur2.fetchone()
-        print("$Recup immobilier: "+str(immobilier))
 
         connexion2.commit()
         connexion2.close()
@@ -332,8 +323,6 @@ class serviceEvaluationPropriete:
     
     def verificationConformite(donnees, idEvaluation): 
         
-        print("$Donnees Verif : "+str(donnees))
-        
         age=donnees[3]
         normeLegal=donnees[4]
         normeReglementaire=donnees[5]
@@ -341,8 +330,6 @@ class serviceEvaluationPropriete:
         normeElectricite=donnees[7]
         normeGaz=donnees[8]
         
-        
-        #Initialisation
         decision = 'Admissible a un pret immobilier'
         facteur1 = ''
         facteur2 = ''
@@ -351,7 +338,6 @@ class serviceEvaluationPropriete:
         facteur5 = ''
         raison = ''
         
-        #Attribution aléatoire des visites (virtuelles et sur place)
         random_number = random.randint(0, 1)
         
         if random_number == 0:
@@ -361,7 +347,6 @@ class serviceEvaluationPropriete:
             visitevirutelle = "Visite virtuelle demandée et effectuée"
             visitesurplace = "Visite sur place non demandée et non effectuée"
 
-        #Decision
         if int(age) < 10:
             if normeElectricite not in ['NFC 15-100', 'NF C 15-100', 'C 15-100']:
                 facteur1 = 'Non conforme : Electricite'
@@ -393,7 +378,6 @@ class serviceEvaluationPropriete:
             
             
         if decision == 'Non admissible a un pret immobilier':
-            # Liste les raisons du refus
             if facteur1 == 'Non conforme : Electricite':
                 raison += facteur1
             if facteur2 == 'Non conforme : Gaz':
@@ -405,13 +389,8 @@ class serviceEvaluationPropriete:
             if facteur5 == 'Il y a au moins 1 litige en cours':
                 raison += facteur5
                 
-                
-        #Ecriture dans la BD
         connexion = sqlite3.connect('evaluationPret.db')
         cursor = connexion.cursor()
-        
-        print("$Decision Conformite: "+decision)
-        print("$Raisons: "+raison)
         
         cursor.execute("UPDATE EVALUATION SET decisionConformite = ?, raison = ? WHERE idEvaluation = ?", (decision, raison, idEvaluation))
         
@@ -420,19 +399,12 @@ class serviceEvaluationPropriete:
   
     
     def valeurMarche(donnees, idEvaluation):
-        print("Donnees: "+str(donnees))
+
         adresse = donnees[1]
-        print("Adresse: "+str(adresse))
         descriptionPropriete = str(donnees[2])
-        print("Description propriete: "+str(descriptionPropriete))
         codePostal = int(re.search(r'\b\d{5}\b', adresse).group())
-        print("Code postal: "+str(codePostal))
-        #modeleRegex = r"(Maison|Appartement)|(maison|appartement)(?:.*?(\b\w+\b)?\s?[ée]tage[s])?"
         modeleRegex = r"(Maison|Appartement)(?:.*?(\b\w+\b)?\s?etage[s])?"
         resultat = re.search(modeleRegex, descriptionPropriete, re.IGNORECASE)
-        print("Resultat: "+str(resultat))
-        print("Resultat1: "+str(resultat.group(1)))
-        print("Resultat2: "+str(resultat.group(2)))
         
         if resultat:
             batiment = resultat.group(1)
@@ -440,9 +412,6 @@ class serviceEvaluationPropriete:
             nbEtage = nombres_en_texte.get(nbEtageExtrait.lower(), nbEtageExtrait) if nbEtageExtrait else None
         else:
             print("Aucun match trouvé")
-            
-        print("Batiment: "+str(batiment))
-        print("Nombre d'étages: "+str(nbEtage))
             
         connexion1 = sqlite3.connect("marcheImmobilier.db")
         curseur1 = connexion1.cursor()
@@ -456,12 +425,9 @@ class serviceEvaluationPropriete:
         
         connexion1.commit()
         connexion1.close()
-        
-        print("Marche Immobilier: "+str(marcheImmobilier))
 
         if marcheImmobilier is not None and marcheImmobilier[0] is not None:
             moyenneValeur = int(marcheImmobilier[0])
-            print("Moyenne : "+str(moyenneValeur))
         else:
             print("Aucun résultat trouvé pour le code_postal", codePostal, ", le batiment", batiment, "et le nombre d'etages", nbEtage)
         

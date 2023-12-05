@@ -1,8 +1,11 @@
-# Service permettant d'extraire les informations utiles
-import re, sqlite3, random, requests
+# serviceExtraction.py : Service permettant d'extraire les informations utiles
 
-# Importation du service composite
-import serviceComposite
+# Importation des librairies extérieures
+import re
+import sqlite3
+import random
+import requests
+
 
 
 class serviceExtraction:
@@ -12,7 +15,6 @@ class serviceExtraction:
         connexion = sqlite3.connect('evaluationPret.db')
         cursor = connexion.cursor()
         
-        # random int idEvaluation
         exist = 1
         while(exist):
             idEvaluation = random.randint(0,1000000)
@@ -22,12 +24,10 @@ class serviceExtraction:
             if(len(resultats) == 0) :
                 break
         
-        # parse formulaire 
         infosExtraites = re.findall(r'(?<=:\s)[a-zA-ZàéÉ0-9\'\,\-\sA-Z@.]+\n', formulaire)
         for i in range(0,len(infosExtraites)):
             infosExtraites[i] = infosExtraites[i].replace("\n",'')
         
-        # INSERT INTO EVALUATION
         cursor.execute("INSERT INTO EVALUATION (idEvaluation, idDossier, nom, adresse, email, telephone, montantpret, dureepret, descriptionpropriete, revenumensuel, depensemensuelle, idbanque, idpropriete) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",(idEvaluation, idDossier, infosExtraites[0], infosExtraites[1], infosExtraites[2], infosExtraites[3], infosExtraites[4], infosExtraites[5], infosExtraites[6], infosExtraites[7], infosExtraites[8], infosExtraites[9], infosExtraites[10]))
         
         connexion.commit()
