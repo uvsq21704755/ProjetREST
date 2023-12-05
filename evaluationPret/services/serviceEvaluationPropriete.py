@@ -300,8 +300,9 @@ class serviceEvaluationPropriete:
     
         connexion1 = sqlite3.connect('evaluationPret.db')
         curseur1 = connexion1.cursor()
-        curseur1.execute("SELECT adresse, descriptionPropriete FROM EVALUATION WHERE idEvaluation = ?", (idEvaluation,))
+        curseur1.execute("SELECT idPropriete, adresse, descriptionPropriete FROM EVALUATION WHERE idEvaluation = ?", (idEvaluation,))
         evaluation = curseur1.fetchone()
+        print("$Recup evaluation: "+str(evaluation))
         
         for i in range(0,len(evaluation)):
             donnees.append(evaluation[i])
@@ -311,8 +312,9 @@ class serviceEvaluationPropriete:
         
         connexion2 = sqlite3.connect('immobilier.db')
         curseur2 = connexion2.cursor()
-        curseur2.execute("SELECT age, normeLegal, normeReglementaire, litigesEnCours, normeElectricite, normeGaz FROM immobilier WHERE adresse = ?", (donnees[0],))
+        curseur2.execute("SELECT age, normeLegal, normeReglementaire, litigesEnCours, normeElectricite, normeGaz FROM immobilier WHERE idImmobilier = ?", (donnees[0],))
         immobilier = curseur2.fetchone()
+        print("$Recup immobilier: "+str(immobilier))
 
         connexion2.commit()
         connexion2.close()
@@ -330,12 +332,15 @@ class serviceEvaluationPropriete:
     
     def verificationConformite(donnees, idEvaluation): 
         
-        age=donnees[2]
-        normeLegal=donnees[3]
-        normeReglementaire=donnees[4]
-        litigesEnCours=donnees[5]
-        normeElectricite=donnees[6]
-        normeGaz=donnees[7]
+        print("$Donnees Verif : "+str(donnees))
+        
+        age=donnees[3]
+        normeLegal=donnees[4]
+        normeReglementaire=donnees[5]
+        litigesEnCours=donnees[6]
+        normeElectricite=donnees[7]
+        normeGaz=donnees[8]
+        
         
         #Initialisation
         decision = 'Admissible a un pret immobilier'
@@ -357,7 +362,7 @@ class serviceEvaluationPropriete:
             visitesurplace = "Visite sur place non demandée et non effectuée"
 
         #Decision
-        if age < 10:
+        if int(age) < 10:
             if normeElectricite not in ['NFC 15-100', 'NF C 15-100', 'C 15-100']:
                 facteur1 = 'Non conforme : Electricite'
                 decision = 'Non admissible a un pret immobilier'               
@@ -405,6 +410,9 @@ class serviceEvaluationPropriete:
         connexion = sqlite3.connect('evaluationPret.db')
         cursor = connexion.cursor()
         
+        print("$Decision Conformite: "+decision)
+        print("$Raisons: "+raison)
+        
         cursor.execute("UPDATE EVALUATION SET decisionConformite = ?, raison = ? WHERE idEvaluation = ?", (decision, raison, idEvaluation))
         
         connexion.commit()
@@ -413,9 +421,9 @@ class serviceEvaluationPropriete:
     
     def valeurMarche(donnees, idEvaluation):
         print("Donnees: "+str(donnees))
-        adresse = donnees[0]
+        adresse = donnees[1]
         print("Adresse: "+str(adresse))
-        descriptionPropriete = str(donnees[1])
+        descriptionPropriete = str(donnees[2])
         print("Description propriete: "+str(descriptionPropriete))
         codePostal = int(re.search(r'\b\d{5}\b', adresse).group())
         print("Code postal: "+str(codePostal))
