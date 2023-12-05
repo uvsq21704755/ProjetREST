@@ -36,7 +36,7 @@ class serviceDecisionApprobation:
         score = donnees[4]
         decisionScore = donnees[5]
         decisionConformite = donnees[6]
-        estimationValeur = int(donnees[7])
+        estimationValeur = donnees[7]
         raisons = donnees[8]
             
     
@@ -51,10 +51,11 @@ class serviceDecisionApprobation:
         if decisionConformite == 'Non admissible a un pret immobilier':
             motif = "pour cette adresse immobilière pour la/les raison.s suivante.s :" + raisons
             test = 0
-            
-        if montantPret > (int(estimationValeur) + 10000):
-            motif = "votre demande est supérieure à la moyenne du marché pour un batiment du même type et dans le même secteur"
-            test = 0
+        
+        if estimationValeur != None:    
+            if montantPret > (int(estimationValeur) + 10000):
+                motif = "votre demande est supérieure à la moyenne du marché pour un batiment du même type et dans le même secteur"
+                test = 0
         
         if decisionScore == 'Tres favorable' and decisionConformite == 'Admissible a un pret immobilier':
             test = 1

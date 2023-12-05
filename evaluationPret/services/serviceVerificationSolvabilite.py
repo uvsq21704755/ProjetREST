@@ -9,11 +9,9 @@ class serviceVerificationSolvabilite:
     
     def creationDBBanque():
     
-        # Connexion à la base de données
         connexion = sqlite3.connect("banque.db")
         curseur = connexion.cursor()
 
-        # Création de la table
         curseur.execute('DROP TABLE IF EXISTS BANQUE')
         curseur.execute('''
             CREATE TABLE IF NOT EXISTS BANQUE (
@@ -26,7 +24,6 @@ class serviceVerificationSolvabilite:
                 tauxEndettement INTEGER)
                 ''')
         
-        # Importation des données JSON dans la base de données
         donnees_json = [
             {
                 "idBanque": 11,
@@ -89,10 +86,7 @@ class serviceVerificationSolvabilite:
                 banque["tauxEndettement"]
             ))
 
-        # Valider les modifications
         connexion.commit()
-
-        # Fermer la connexion
         connexion.close()
     
     

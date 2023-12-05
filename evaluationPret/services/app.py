@@ -132,7 +132,8 @@ class App():
             curseur.execute('SELECT formulaire FROM DEMANDE WHERE idDossier = ?', (numerodossier,))
             resultat = curseur.fetchone()
 
-            if(len(resultat) == 0):
+            #if(len(resultat) == 0):
+            if(resultat == None):
                 connexion.close()
                 return open(str(CHEMIN_RACINE+"templates/introuvable.html"),"r", encoding="UTF-8").read()
 
@@ -140,7 +141,8 @@ class App():
                 curseur.execute('SELECT resultat FROM RESULTAT WHERE idDossier = ?', (numerodossier,))
                 resultat2 = curseur.fetchone()
 
-                if(len(resultat2) == 0):
+                #if(len(resultat2) == 0):
+                if(resultat2 == None):
                     connexion.close()
                     return open(str(CHEMIN_RACINE+"templates/traitement.html"),"r", encoding="UTF-8").read()
 

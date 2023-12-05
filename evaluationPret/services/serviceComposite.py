@@ -68,7 +68,7 @@ class serviceComposite:
     # lancement de l'evaluation de demande de pret
     def lancerEvaluationPret(idDossier, formulaire):
 
-        print("Nouvelle demande n°"+str(idDossier))
+        print("*******************Nouvelle demande n°"+str(idDossier)+"*******************")
 
         # envoi de l'idDossier et formulaire à la fonction extraction
         serviceExtractionUrl = "http://127.0.0.1:8000/serviceExtraction"
