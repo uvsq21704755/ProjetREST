@@ -94,7 +94,6 @@ class serviceDecisionApprobation:
         connexion.close()
         
 
-    
     def decider(idEvaluation : int):
         donnees = serviceDecisionApprobation.recupBD(idEvaluation)
         serviceDecisionApprobation.decision(donnees, idEvaluation)
